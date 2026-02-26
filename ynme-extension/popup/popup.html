@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ynme</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Auth View -->
+        <div id="auth-view" class="view hidden">
+            <h1 class="logo">ynme</h1>
+            <p class="subtitle">Sign in to sync media</p>
+            <div class="form-group">
+                <input type="email" id="email" placeholder="Email">
+                <input type="password" id="password" placeholder="Password">
+                <button id="login-btn" class="primary-btn">Login</button>
+            </div>
+            <p id="auth-error" class="error-text hidden"></p>
+        </div>
+
+        <!-- Player View -->
+        <div id="player-view" class="view hidden">
+            <div id="no-media" class="overlay hidden">
+                <div class="message">No media detected</div>
+            </div>
+
+            <header>
+                <div class="header-top">
+                    <h1 id="video-title">ynme <span id="conn-status" class="status-badge">Offline</span></h1>
+                    <button id="logout-btn" title="Logout">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+                    </button>
+                </div>
+            </header>
+
+            <main>
+                <div class="progress-section">
+                    <span id="current-time">0:00</span>
+                    <input type="range" id="progress-bar" min="0" max="100" value="0">
+                    <span id="duration">0:00</span>
+                </div>
+
+                <div class="controls">
+                    <button id="back-button" title="Back 10s">
+                        <svg viewBox="0 0 24 24"><path d="M12.5 10V5L5 12l7.5 7v-5c4.7 0 8 3.1 8 8-1.5-4.7-3.9-8-8-8z"/></svg>
+                    </button>
+                    <button id="play-pause-button" class="play" title="Play/Pause">
+                        <div class="icon-play"></div>
+                        <div class="icon-pause hidden"></div>
+                    </button>
+                    <button id="forward-button" title="Forward 10s">
+                        <svg viewBox="0 0 24 24"><path d="M11.5 10V5l7.5 7-7.5 7v-5c-4.7 0-8 3.1-8 8 1.5-4.7 3.9-8 8-8z"/></svg>
+                    </button>
+                </div>
+
+                <div class="volume-section">
+                    <svg class="volume-icon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                    <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="1">
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>
