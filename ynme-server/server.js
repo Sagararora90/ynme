@@ -36,8 +36,8 @@ const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27014/ynme';
 
 mongoose.connect(MONGO_URI)
   .then(() => {
-    server.listen(PORT, '127.0.0.1', () => {
-      console.log(`Server running on http://127.0.0.1:${PORT}`);
+    server.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
     });
   })
   .catch(err => console.error('MongoDB connection error:', err));
