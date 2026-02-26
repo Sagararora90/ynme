@@ -34,10 +34,12 @@ socketHandler(io);
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27014/ynme';
 
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
 mongoose.connect(MONGO_URI)
-  .then(() => {
-    server.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  })
-  .catch(err => console.error('MongoDB connection error:', err));
+  .then(() => console.log('MongoDB Connected successfully!'))
+  .catch(err => {
+    console.error('MongoDB connection error (Check Network Access IP Whitelist!):', err.message);
+  });
