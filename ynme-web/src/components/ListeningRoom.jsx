@@ -10,7 +10,7 @@ const ListeningRoom = ({ roomId, userId, email, playlist }) => {
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    const s = io(import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001', { auth: { token } });
+    const s = io(import.meta.env.VITE_API_URL || `http://${window.location.hostname || 'localhost'}:5001`, { auth: { token } });
     setSocket(s);
 
     s.emit('join_room', { roomId });

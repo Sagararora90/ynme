@@ -81,7 +81,7 @@ const MediaBridge = ({ deviceStatus, socket }) => {
     if (!q) return;
     setSearching(true);
     try {
-      const { data } = await axios.get(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001'}/api/search?q=${encodeURIComponent(q)}&mode=video`, {
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL || `http://${window.location.hostname || 'localhost'}:5001`}/api/search?q=${encodeURIComponent(q)}&mode=video`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setResults(data);

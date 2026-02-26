@@ -110,7 +110,7 @@ const Dashboard = () => {
       setLocalPlay(media);
     } else if (localPlay) {
       // Infinity Play: Queue ended, fetch related tracks
-      axios.get(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001'}/api/search/related?title=${encodeURIComponent(localPlay.title)}&id=${localPlay.id || ''}&platform=${localPlay.platform || ''}`, {
+      axios.get(`${import.meta.env.VITE_API_URL || `http://${window.location.hostname || 'localhost'}:5001`}/api/search/related?title=${encodeURIComponent(localPlay.title)}&id=${localPlay.id || ''}&platform=${localPlay.platform || ''}`, {
         headers: { Authorization: `Bearer ${token}` }
       }).then(({ data }) => {
         if (data && data.length > 0) {
@@ -201,7 +201,7 @@ const Dashboard = () => {
   } : null);
 
   useEffect(() => {
-    const s = io(import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001', { auth: { token } });
+    const s = io(import.meta.env.VITE_API_URL || `http://${window.location.hostname || 'localhost'}:5001`, { auth: { token } });
     setSocket(s);
     s.on('connect', () => {
       s.emit('register_device', { userId: user.id, device: 'web-dashboard' });
@@ -217,7 +217,7 @@ const Dashboard = () => {
 
   const fetchPlaylists = async () => {
     try {
-      const { data } = await axios.get((import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001') + '/api/playlists', { headers: { Authorization: `Bearer ${token}` } });
+      const { data } = await axios.get((import.meta.env.VITE_API_URL || `http://${window.location.hostname || 'localhost'}:5001`) + '/api/playlists', { headers: { Authorization: `Bearer ${token}` } });
       setPlaylists(data);
     } catch (e) { if (e.code !== 'ERR_CANCELED' && e.message !== 'Request aborted') console.error(e); }
   };

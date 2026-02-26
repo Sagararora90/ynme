@@ -17,7 +17,7 @@ const PlaylistDetail = ({ playlistId, userId, onStartRoom, onBack, onPlay }) => 
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    const s = io(import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001', { auth: { token } });
+    const s = io(import.meta.env.VITE_API_URL || `http://${window.location.hostname || 'localhost'}:5001`, { auth: { token } });
     setSocket(s);
     s.emit('join_playlist', playlistId);
     s.on('playlist_updated', (data) => setPlaylist(data));
@@ -26,7 +26,7 @@ const PlaylistDetail = ({ playlistId, userId, onStartRoom, onBack, onPlay }) => 
   }, [playlistId]);
 
   const fetchPlaylist = async () => {
-    const { data } = await axios.get(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001'}/api/playlists/${playlistId}`, {
+    const { data } = await axios.get(`${import.meta.env.VITE_API_URL || `http://${window.location.hostname || 'localhost'}:5001`}/api/playlists/${playlistId}`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setPlaylist(data);
@@ -49,7 +49,7 @@ const PlaylistDetail = ({ playlistId, userId, onStartRoom, onBack, onPlay }) => 
     setSearching(true);
     try {
       const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001'}/api/search?q=${encodeURIComponent(searchQ.trim())}&mode=smart`,
+        `${import.meta.env.VITE_API_URL || `http://${window.location.hostname || 'localhost'}:5001`}/api/search?q=${encodeURIComponent(searchQ.trim())}&mode=smart`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setSearchResults(Array.isArray(data) ? data : []);
@@ -60,7 +60,7 @@ const PlaylistDetail = ({ playlistId, userId, onStartRoom, onBack, onPlay }) => 
   const deleteTrack = async (e, mediaId) => {
     e.stopPropagation();
     try {
-      const { data } = await axios.delete(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001'}/api/playlists/${playlistId}/media/${mediaId}`, {
+      const { data } = await axios.delete(`${import.meta.env.VITE_API_URL || `http://${window.location.hostname || 'localhost'}:5001`}/api/playlists/${playlistId}/media/${mediaId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setPlaylist(data);
@@ -76,7 +76,7 @@ const PlaylistDetail = ({ playlistId, userId, onStartRoom, onBack, onPlay }) => 
     const formData = new FormData();
     formData.append('file', file);
     try {
-      const { data } = await axios.post(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001'}/api/playlists/${playlistId}/upload`, formData, {
+      const { data } = await axios.post(`${import.meta.env.VITE_API_URL || `http://${window.location.hostname || 'localhost'}:5001`}/api/playlists/${playlistId}/upload`, formData, {
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' }
       });
       setPlaylist(data);
