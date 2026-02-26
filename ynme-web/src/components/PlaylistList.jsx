@@ -16,7 +16,7 @@ const PlaylistList = ({ onSelect }) => {
 
   const fetchPlaylists = async () => {
     try {
-      const { data } = await axios.get('http://127.0.0.1:5001/api/playlists', { headers: { Authorization: `Bearer ${token}` } });
+      const { data } = await axios.get((import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001') + '/api/playlists', { headers: { Authorization: `Bearer ${token}` } });
       setPlaylists(data);
     } catch (e) { console.error(e); }
   };
@@ -25,8 +25,8 @@ const PlaylistList = ({ onSelect }) => {
     if (!name.trim()) return;
     setLoading(true);
     try {
-      const { data } = await axios.post('http://127.0.0.1:5001/api/ai/generate', { prompt: name }, { headers: { Authorization: `Bearer ${token}` } });
-      const res = await axios.post('http://127.0.0.1:5001/api/playlists', { name: `AI: ${name}`, mediaItems: data.items }, { headers: { Authorization: `Bearer ${token}` } });
+      const { data } = await axios.post((import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001') + '/api/ai/generate', { prompt: name }, { headers: { Authorization: `Bearer ${token}` } });
+      const res = await axios.post((import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001') + '/api/playlists', { name: `AI: ${name}`, mediaItems: data.items }, { headers: { Authorization: `Bearer ${token}` } });
       setPlaylists([...playlists, res.data]);
       setName(''); setShowCreate(false);
     } catch (e) { console.error(e); alert('AI generation failed'); }
@@ -38,7 +38,7 @@ const PlaylistList = ({ onSelect }) => {
     if (!name.trim()) return;
     setLoading(true);
     try {
-      await axios.post('http://127.0.0.1:5001/api/playlists', { name, isPublic: false }, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.post((import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001') + '/api/playlists', { name, isPublic: false }, { headers: { Authorization: `Bearer ${token}` } });
       setName(''); setShowCreate(false); fetchPlaylists();
     } catch (e) { console.error(e); }
     finally { setLoading(false); }
@@ -49,7 +49,7 @@ const PlaylistList = ({ onSelect }) => {
     if (!joinCode.trim()) return;
     setLoading(true);
     try {
-      await axios.post(`http://127.0.0.1:5001/api/playlists/join/${joinCode}`, {}, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.post(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001'}/api/playlists/join/${joinCode}`, {}, { headers: { Authorization: `Bearer ${token}` } });
       setJoinCode(''); setShowJoin(false); fetchPlaylists();
     } catch (e) { alert('Invalid invite code'); }
     finally { setLoading(false); }

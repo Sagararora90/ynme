@@ -34,7 +34,7 @@ const SearchInterface = ({ socket, userId, onPlay, onAddToPlaylist }) => {
     if (history.length > 0) {
       setLoadingRecs(true);
       const last = history[0];
-      axios.get(`http://127.0.0.1:5001/api/search/related?title=${encodeURIComponent(last.title)}&id=${last.id || ''}&platform=${last.platform || ''}`, {
+      axios.get(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001'}/api/search/related?title=${encodeURIComponent(last.title)}&id=${last.id || ''}&platform=${last.platform || ''}`, {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(({ data }) => setRecommendations(Array.isArray(data) ? data : []))
@@ -53,7 +53,7 @@ const SearchInterface = ({ socket, userId, onPlay, onAddToPlaylist }) => {
     setResults([]);
     try {
       const { data } = await axios.get(
-        `http://127.0.0.1:5001/api/search?q=${encodeURIComponent(query.trim())}&mode=${mode}`,
+        `${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001'}/api/search?q=${encodeURIComponent(query.trim())}&mode=${mode}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setResults(Array.isArray(data) ? data : []);
@@ -85,7 +85,7 @@ const SearchInterface = ({ socket, userId, onPlay, onAddToPlaylist }) => {
 
   const fetchPlaylists = async () => {
     try {
-      const { data } = await axios.get('http://127.0.0.1:5001/api/playlists', {
+      const { data } = await axios.get((import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001') + '/api/playlists', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setPlaylists(data);
